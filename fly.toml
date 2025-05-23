@@ -1,48 +1,21 @@
-# fly.toml file generated for gitea-server on 2022-05-14T15:27:31+01:00
-app = "gitea-server"
+# fly.toml app configuration file generated for gitea-server-aarulabs on 2025-05-23T10:52:57Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-kill_timeout = 5
+app = 'gitea-server-aarulabs'
+primary_region = 'fra'
 
-[build]
-  image = "gitea/gitea:latest" # latest is the most recent stable release
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
-[env]
-  GITEA__database__DB_TYPE="sqlite3"
-  GITEA__database__PATH="/data/gitea/gitea.db"
-  GITEA__server__DOMAIN="gitea-server.fly.dev"
-  GITEA__server__SSH_DOMAIN="gitea-server.fly.dev"
-  GITEA__server__ROOT_URL="https://gitea-server.fly.dev"
-  GITEA__server__REDIRECT_OTHER_PORT="true" # listen on port 80, and redirect to "ROOT_URL"
-  GITEA__security__INSTALL_LOCK="true" # Don't show installer
-  # GITEA__service__DISABLE_REGISTRATION="true" # TODO: uncomment once you have created your first user
-
-# persist data
-[[mounts]]
-  destination = "/data"
-  source = "gitea_data"
-
-# ssh traffic
-[[services]]
-  internal_port = 22
-  protocol = "tcp"
-  [[services.ports]]
-    port = 22
-
-# for http->https redirect
-[[services]]
-  internal_port = 80
-  protocol = "tcp"
-
-  [[services.ports]]
-    handlers = ["http"]
-    port = 80
-
-# https traffic
-[[services]]
-  internal_port = 3000
-  protocol = "tcp"
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
-
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024
