@@ -21,6 +21,7 @@ kill_timeout = 5
 [[mounts]]
   source = "gitea_data"
   destination = "/data"
+  initial_size = 40
 
 # SSH (for Git over SSH, optional)
 [[services]]
@@ -57,7 +58,6 @@ kill_timeout = 5
     port = 3000
 
 [[vm]]
-  memory = "40gb"
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 1024
