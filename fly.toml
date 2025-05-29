@@ -1,63 +1,21 @@
-# fly.toml app configuration file for gitea-server-aarulabs
+# fly.toml app configuration file generated for gitea-server-aarulabs on 2025-05-29T15:48:02Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "gitea-server-aarulabs"
-primary_region = "fra"
+app = 'gitea-server-aarulabs'
+primary_region = 'fra'
 
-kill_timeout = 5
-
-[build]
-  image = "gitea/gitea:latest" # Use the latest stable release of Gitea
-
-[env]
-  GITEA__database__DB_TYPE = "sqlite3"
-  GITEA__database__PATH = "/data/gitea/gitea.db"
-  GITEA__server__DOMAIN = "gitea-server-aarulabs.fly.dev"
-  GITEA__server__ROOT_URL = "https://gitea-server-aarulabs.fly.dev"
-  GITEA__server__HTTP_ADDR = "0.0.0.0"
-  GITEA__server__HTTP_PORT = "3000"
-  GITEA__security__INSTALL_LOCK = "true"
-
-# Persistent volume mount
-[[mounts]]
-  source = "gitea_data"
-  destination = "/data"
-
-# SSH (for Git over SSH, optional)
-[[services]]
-  internal_port = 22
-  protocol = "tcp"
-  [[services.ports]]
-    port = 22
-
-# HTTP to HTTPS redirect
-[[services]]
-  internal_port = 80
-  protocol = "tcp"
-  [[services.ports]]
-    port = 80
-    handlers = ["http"]
-
-# HTTPS traffic (serving Gitea UI)
-[[services]]
-  internal_port = 3000
-  protocol = "tcp"
-  [[services.ports]]
-    port = 443
-    handlers = ["tls", "http"]
-
-# Optional HTTP health check
-[checks]
-  [checks.http_check]
-    type = "http"
-    interval = "30s"
-    timeout = "5s"
-    method = "get"
-    path = "/"
-    protocol = "https"
-    port = 3000
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  memory = "40gb"
-  cpu_kind = "shared"
+  memory = '40gb'
+  cpu_kind = 'shared'
   cpus = 1
   memory_mb = 1024
