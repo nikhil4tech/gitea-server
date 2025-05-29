@@ -19,7 +19,7 @@ kill_timeout = 5
 
 # Persistent volume mount
 [[mounts]]
-  source = "gitea_data"
+  volume = "vol_453oqnp8j9q5qm9r"
   destination = "/data"
 
 # SSH (for Git over SSH, optional)
@@ -57,7 +57,7 @@ kill_timeout = 5
     port = 3000
 
 [[vm]]
-  memory = "1gb"
+  memory = "40gb"
   cpu_kind = "shared"
   cpus = 1
   memory_mb = 1024
