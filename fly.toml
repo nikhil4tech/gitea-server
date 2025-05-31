@@ -22,7 +22,7 @@ kill_timeout = 5
   source = "gitea_data"
   destination = "/data"
   initial_size = 40
-  
+
 # SSH (for Git over SSH, optional)
 [[services]]
   internal_port = 22
